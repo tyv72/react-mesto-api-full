@@ -1,0 +1,8 @@
+.menu__item_active {
+  font-style: normal;
+  font-weight: medium;
+  font-size: 18px;
+  line-height: 1.25;
+
+  color: #ffffff;
+}

@@ -1,0 +1,12 @@
+@import url('./__login-link/register__login-link.css');
+@import url('./__signin/register__signin.css');
+@import url('./__question/register__question.css');
+
+.register {
+  display: flex;
+
+  flex-direction: column;
+  align-items: center; 
+
+  max-width: 368px;
+}

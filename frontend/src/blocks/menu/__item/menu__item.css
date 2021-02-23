@@ -1,0 +1,12 @@
+.menu__item {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.25;
+
+  text-decoration: none;
+
+  color: #A9A9A9;  
+
+  margin-left: 24px;
+}

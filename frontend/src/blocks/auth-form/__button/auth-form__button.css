@@ -1,0 +1,25 @@
+.auth-form__button {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22;
+  text-align: center;
+  background-color: #FFFFFF;
+  color: #000000;
+
+  border: 0;
+  border-radius: 2px;
+
+  width: 100%;
+
+  padding-top: 14px;
+  padding-bottom: 14px;
+  margin: 216px auto 0;
+}
+
+@media screen and (max-width: 430px) {
+  .auth-form__button {
+    font-size: 14px;
+  }
+}
