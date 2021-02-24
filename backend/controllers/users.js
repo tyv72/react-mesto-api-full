@@ -7,7 +7,7 @@ const { JWT_SECRET } = require('../config/config');
 
 module.exports.createUser = (req, res, next) => {
   const {
-    name, email, password,
+    email, password,
   } = req.body;
 
   User.findOne({ email })
@@ -18,7 +18,7 @@ module.exports.createUser = (req, res, next) => {
       return bcrypt.hash(password, 10);
     })
     .then((hash) => User.create({
-      name, email, password: hash,
+      email, password: hash,
     }))
     .then(({ _id }) => res.send({ data: _id }))
     .catch(next);
