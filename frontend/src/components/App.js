@@ -190,7 +190,6 @@ function App() {
   } 
 
   function handleCardDelete(card) {
-    // TODO Отфильтровать массив карточек и убрать ту, что удалили
     const token = localStorage.getItem('jwt');
     api.deleteCard(card._id, token)
     .then((card) => {
