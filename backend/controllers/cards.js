@@ -27,6 +27,8 @@ module.exports.deleteCard = (req, res, next) => {
       if (card.owner._id.equals(req.user._id)) {
         console.log(`card.owner = ${card.owner} \n`);
         console.log(`req.user._id = ${req.user._id} \n`);
+        console.log(`card.owner._id.equals(req.user._id) = ${card.owner._id.equals(req.user._id)}`);
+        console.log(`card.owner.equals(req.user._id) = ${card.owner.equals(req.user._id)}`);
         throw new UnauthorizedError(`Карточка с идентификатором ${req.params.cardId} добавлена другим пользователем`);
       }
     }).then(() => {
