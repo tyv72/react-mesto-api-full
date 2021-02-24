@@ -26,7 +26,7 @@ function App() {
   const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState();
   const [deletedCard, setDeletedCard] = React.useState();
-  const [currentUser, setCurrentUser] = React.useState({name:'', avatar:'', about:''});
+  const [currentUser, setCurrentUser] = React.useState({name:'', avatar:'', about:'', _id:''});
   const [cards, setCards] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [isRegisterError, setIsRegisterError] = React.useState(false);
@@ -51,18 +51,18 @@ function App() {
           if (res){
             setLoggedIn(true); 
             setEmail(res.data.email); 
-            fillState();        
+            fillState(jwt);        
           }
         })
         .catch((err) => console.log(err)); 
     }
   }
 
-  function fillState() {
-    Promise.all([api.getUserInfo(), api.getAllCards()])
+  function fillState(token) {
+    Promise.all([api.getUserInfo(token), api.getAllCards(token)])
       .then(([userData, cardsData]) => {
-        setCards(cardsData); 
-        setCurrentUser(userData);                     
+        setCards(cardsData.data); 
+        setCurrentUser(userData.data);                     
       })
       .catch((err) => console.log(err));
   }
@@ -95,7 +95,7 @@ function App() {
           localStorage.setItem('jwt', res.token);
           setLoggedIn(true);
           setEmail(email);
-          fillState();                
+          fillState(res.token);                
         }
       })
       .catch((err) => console.log(err));
@@ -148,8 +148,8 @@ function App() {
     const token = localStorage.getItem('jwt');
     api
       .updateUserInfo(data, token)
-      .then((data) => {
-        setCurrentUser(data);
+      .then((user) => {
+        setCurrentUser(user.data);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
@@ -159,8 +159,8 @@ function App() {
     const token = localStorage.getItem('jwt');
     api
       .updateUserAvatar(data, token) 
-      .then((data) => {
-        setCurrentUser(data);
+      .then((avatar) => {
+        setCurrentUser(avatar.data);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
@@ -171,19 +171,19 @@ function App() {
     api
       .addCard(data, token) 
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
   }
 
   function handleCardLike(card) {
-      const isLiked = card.likes.some(i => i._id === currentUser._id);
+      const isLiked = card.likes.some(i => i === currentUser._id);
       const token = localStorage.getItem('jwt');
       
       api.changeLikeCardStatus(card._id, !isLiked, token)
       .then((newCard) => {
-        const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+        const newCards = cards.map((c) => c._id === card._id ? newCard.data : c);
         setCards(newCards);
       })
       .catch((err) => console.log(err));
@@ -192,11 +192,12 @@ function App() {
   function handleCardDelete(card) {
     // TODO Отфильтровать массив карточек и убрать ту, что удалили
     const token = localStorage.getItem('jwt');
-    api.deleteCard(card._id, token).then(() => {
-      return api.getAllCards(token);
-    })
-    .then((cards) => {
-      setCards(cards);
+    api.deleteCard(card._id, token)
+    .then((card) => {
+      let newCards = cards.slice();
+      let cardIdx = newCards.find(item => item._id == card.data._id);
+      newCards.splice(cardIdx, 1);
+      setCards(newCards);
       closeAllPopups();
     })
     .catch((err) => console.log(err));

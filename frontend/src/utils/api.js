@@ -93,7 +93,7 @@ class Api {
   }
 
   changeLikeCardStatus(id, isLiked, token) {
-    return fetch(`${this._url}cards/likes/${id}`, {
+    return fetch(`${this._url}cards/${id}/likes`, {
         method: isLiked ? "PUT" : "DELETE",
         headers: {
           'Accept': 'application/json',
@@ -106,7 +106,7 @@ class Api {
 }
 
 const api = new Api({
-  url: "https://api.tyv.students.nomoreparties.space"
+  url: "https://api.tyv.students.nomoreparties.space/"
 });
 
 export default api;

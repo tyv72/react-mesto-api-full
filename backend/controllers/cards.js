@@ -24,6 +24,7 @@ module.exports.deleteCard = (req, res, next) => {
         throw new NotFoundError(`Карточка с идентификатором ${req.params.cardId} не найдена`);
       }
       if (card.owner !== req.user._id) {
+        console.log(`card = ${card} \n`);
         throw new UnauthorizedError(`Карточка с идентификатором ${req.params.cardId} добавлена другим пользователем`);
       }
       res.send({ data: card });
