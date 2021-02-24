@@ -145,8 +145,9 @@ function App() {
   }
 
   function handleUpdateUser (data) {
+    const token = localStorage.getItem('jwt');
     api
-      .updateUserInfo(data)
+      .updateUserInfo(data, token)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -155,8 +156,9 @@ function App() {
   }
 
   function handleUpdateAvatar (data) {
+    const token = localStorage.getItem('jwt');
     api
-      .updateUserAvatar(data) 
+      .updateUserAvatar(data, token) 
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
@@ -165,8 +167,9 @@ function App() {
   }
 
   function handleAddPlace (data) {
+    const token = localStorage.getItem('jwt');
     api
-      .addCard(data) 
+      .addCard(data, token) 
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -176,8 +179,9 @@ function App() {
 
   function handleCardLike(card) {
       const isLiked = card.likes.some(i => i._id === currentUser._id);
+      const token = localStorage.getItem('jwt');
       
-      api.changeLikeCardStatus(card._id, !isLiked)
+      api.changeLikeCardStatus(card._id, !isLiked, token)
       .then((newCard) => {
         const newCards = cards.map((c) => c._id === card._id ? newCard : c);
         setCards(newCards);
@@ -187,8 +191,9 @@ function App() {
 
   function handleCardDelete(card) {
     // TODO Отфильтровать массив карточек и убрать ту, что удалили
-    api.deleteCard(card._id).then(() => {
-      return api.getAllCards();
+    const token = localStorage.getItem('jwt');
+    api.deleteCard(card._id, token).then(() => {
+      return api.getAllCards(token);
     })
     .then((cards) => {
       setCards(cards);

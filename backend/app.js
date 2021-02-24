@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { errors, CelebrateError } = require('celebrate');
 const cards = require('./routes/cards');
 const users = require('./routes/users');
@@ -18,6 +19,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use((req, res, next) => {

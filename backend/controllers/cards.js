@@ -1,4 +1,5 @@
 const NotFoundError = require('../errors/NotFoundError');
+const UnauthorizedError = require('../errors/UnathorizedError');
 const Card = require('../models/card');
 
 module.exports.sendCards = (req, res, next) => {
@@ -20,8 +21,10 @@ module.exports.deleteCard = (req, res, next) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (card == null) {
-        // TODO добавить проверку на то, чтобы нельзя было удалить чужую карточку
         throw new NotFoundError(`Карточка с идентификатором ${req.params.cardId} не найдена`);
+      }
+      if (card.owner !== req.user._id) {
+        throw new UnauthorizedError(`Карточка с идентификатором ${req.params.cardId} добавлена другим пользователем`);
       }
       res.send({ data: card });
     })

@@ -1,9 +1,6 @@
-import { settings } from './constants.js';
-
 class Api {
   constructor(config) {
     this._url = config.url;
-    this._headers = config.headers;
   }
 
   _getResponseData(res) {
@@ -14,25 +11,37 @@ class Api {
     return Promise.reject(new Error(`Ошибка: ${res.status}`));
   }
 
-  getAllCards() {
+  getAllCards(token) {
       return fetch(`${this._url}cards`, {
-          headers: this._headers,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
       })
       .then((res) => this._getResponseData(res));
   }
 
-  deleteCard(id) {
+  deleteCard(id, token) {
       return fetch(`${this._url}cards/${id}`, {
           method: "DELETE",
-          headers: this._headers,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
       })
       .then((res) => this._getResponseData(res));
   }
 
-  addCard(data) {
+  addCard(data, token) {
       return fetch(`${this._url}cards`, {
           method: "POST",
-          headers: this._headers,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
           body: JSON.stringify({
             name: data.name,
             link: data.link
@@ -41,17 +50,25 @@ class Api {
       .then((res) => this._getResponseData(res));
   }
 
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(`${this._url}users/me`, {
-        headers: this._headers,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
     })
     .then((res) => this._getResponseData(res));
   }
 
-  updateUserInfo(data) {
+  updateUserInfo(data, token) {
     return fetch(`${this._url}users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about
@@ -60,10 +77,14 @@ class Api {
     .then((res) => this._getResponseData(res));
   }
 
-  updateUserAvatar(data) {
+  updateUserAvatar(data, token) {
     return fetch(`${this._url}users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify({
         avatar: data.avatar
       })
@@ -71,21 +92,21 @@ class Api {
     .then((res) => this._getResponseData(res));
   }
 
-  changeLikeCardStatus(id, isLiked) {
+  changeLikeCardStatus(id, isLiked, token) {
     return fetch(`${this._url}cards/likes/${id}`, {
         method: isLiked ? "PUT" : "DELETE",
-        headers: this._headers,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
     })
     .then((res) => this._getResponseData(res));
   }  
 }
 
 const api = new Api({
-  url: "https://api.tyv.students.nomoreparties.space",
-  headers: {
-    authorization: localStorage.getItem('jwt'),
-    "content-type": "application/json",
-  }
+  url: "https://api.tyv.students.nomoreparties.space"
 });
 
 export default api;
