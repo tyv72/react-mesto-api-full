@@ -18,18 +18,22 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .then((card) => {
       if (card == null) {
         throw new NotFoundError(`Карточка с идентификатором ${req.params.cardId} не найдена`);
       }
       if (card.owner !== req.user._id) {
         console.log(`card = ${card} \n`);
+        console.log(`req.user._id = ${req.user._id} \n`);
         throw new UnauthorizedError(`Карточка с идентификатором ${req.params.cardId} добавлена другим пользователем`);
       }
-      res.send({ data: card });
-    })
-    .catch(next);
+    }).then(() => {
+      Card.findByIdAndRemove(req.params.cardId)
+        .then((card) => {
+          res.send({ data: card });
+        });
+    }).catch(next);
 };
 
 module.exports.likeCard = (req, res, next) => {
