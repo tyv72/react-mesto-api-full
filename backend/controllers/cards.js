@@ -19,12 +19,13 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
+    .populate('owner')
     .then((card) => {
       if (card == null) {
         throw new NotFoundError(`Карточка с идентификатором ${req.params.cardId} не найдена`);
       }
-      if (card.owner !== req.user._id) {
-        console.log(`card = ${card} \n`);
+      if (card.owner._id !== req.user._id) {
+        console.log(`card.owner = ${card.owner} \n`);
         console.log(`req.user._id = ${req.user._id} \n`);
         throw new UnauthorizedError(`Карточка с идентификатором ${req.params.cardId} добавлена другим пользователем`);
       }
@@ -33,7 +34,8 @@ module.exports.deleteCard = (req, res, next) => {
         .then((card) => {
           res.send({ data: card });
         });
-    }).catch(next);
+    })
+    .catch(next);
 };
 
 module.exports.likeCard = (req, res, next) => {
