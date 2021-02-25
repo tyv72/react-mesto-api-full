@@ -6,6 +6,7 @@ const {
 } = require('../controllers/users');
 
 router.get('/users', sendUsers);
+router.get('/users/me', sendUser);
 router.get('/users/:id', celebrate({
   params: Joi.object().keys({
     id: Joi.string().required().length(24).hex()
@@ -16,7 +17,6 @@ router.get('/users/:id', celebrate({
       }),
   }),
 }), sendUserById);
-router.get('/users/me', sendUser);
 router.patch('/users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).messages({
