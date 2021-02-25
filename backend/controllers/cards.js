@@ -1,5 +1,5 @@
 const NotFoundError = require('../errors/NotFoundError');
-const UnauthorizedError = require('../errors/UnathorizedError');
+const ValidationError = require('../errors/ValidationError');
 const Card = require('../models/card');
 
 module.exports.sendCards = (req, res, next) => {
@@ -25,7 +25,7 @@ module.exports.deleteCard = (req, res, next) => {
         throw new NotFoundError(`Карточка с идентификатором ${req.params.cardId} не найдена`);
       }
       if (!card.owner._id.equals(req.user._id)) {
-        throw new UnauthorizedError(`Карточка с идентификатором ${req.params.cardId} добавлена другим пользователем`);
+        throw new ValidationError(`Карточка с идентификатором ${req.params.cardId} добавлена другим пользователем`);
       }
     }).then(() => {
       Card.findByIdAndRemove(req.params.cardId)

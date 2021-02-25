@@ -41,6 +41,17 @@ module.exports.sendUser = (req, res, next) => {
     .catch(next);
 };
 
+module.exports.sendUserById = (req, res, next) => {
+  User.findById(req.params.id)
+    .then((user) => {
+      if (user == null) {
+        throw new NotFoundError(`User with id = ${req.params.id} not found`);
+      }
+      res.send({ data: user });
+    })
+    .catch(next);
+};
+
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
