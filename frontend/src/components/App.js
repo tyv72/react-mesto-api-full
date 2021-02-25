@@ -61,8 +61,8 @@ function App() {
   function fillState(token) {
     Promise.all([api.getUserInfo(token), api.getAllCards(token)])
       .then(([userData, cardsData]) => {
-        setCards(cardsData.data); 
-        setCurrentUser(userData.data);                     
+        setCurrentUser(userData.data);
+        setCards(cardsData.data);                              
       })
       .catch((err) => console.log(err));
   }

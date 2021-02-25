@@ -4,7 +4,7 @@ const Card = require('../models/card');
 
 module.exports.sendCards = (req, res, next) => {
   Card.find({})
-    .populate('owner')
+    // .populate('owner')
     .then((cards) => res.send({ data: cards }))
     .catch(next);
 };
