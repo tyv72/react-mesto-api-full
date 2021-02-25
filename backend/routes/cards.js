@@ -25,7 +25,7 @@ router.post('/cards', celebrate({
 }), createCard);
 router.delete('/cards/:cardId', celebrate({
   params: Joi.object().keys({
-    cardId: Joi.required().string().length(24).hex()
+    cardId: Joi.string().required().length(24).hex()
       .messages({
         'string.length': 'Длина идентификатора карточки должна быть равна 24',
         'string.hex': 'Идентификатор карточки должен быть в 16ричном формате',
@@ -35,7 +35,7 @@ router.delete('/cards/:cardId', celebrate({
 }), deleteCard);
 router.put('/cards/:cardId/likes', celebrate({
   params: Joi.object().keys({
-    cardId: Joi.required().string().length(24).hex()
+    cardId: Joi.string().required().length(24).hex()
       .messages({
         'string.length': 'Длина идентификатора карточки должна быть равна 24',
         'string.hex': 'Идентификатор карточки должен быть в 16ричном формате',
@@ -45,7 +45,7 @@ router.put('/cards/:cardId/likes', celebrate({
 }), likeCard);
 router.delete('/cards/:cardId/likes', celebrate({
   params: Joi.object().keys({
-    cardId: Joi.required().string().length(24).hex()
+    cardId: Joi.string().required().length(24).hex()
       .messages({
         'string.length': 'Длина идентификатора карточки должна быть равна 24',
         'string.hex': 'Идентификатор карточки должен быть в 16ричном формате',

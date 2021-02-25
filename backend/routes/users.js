@@ -8,7 +8,7 @@ const {
 router.get('/users', sendUsers);
 router.get('/users/:id', celebrate({
   params: Joi.object().keys({
-    id: Joi.required().string().length(24).hex()
+    id: Joi.string().required().length(24).hex()
       .messages({
         'string.length': 'Длина идентификатора пользователя должна быть равна 24',
         'string.hex': 'Идентификатор пользователя должен быть в 16ричном формате',
