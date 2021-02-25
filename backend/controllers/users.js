@@ -42,6 +42,9 @@ module.exports.sendUser = (req, res, next) => {
 };
 
 module.exports.sendUserById = (req, res, next) => {
+  if (req.params.id.equals('me')) {
+    next();
+  }
   User.findById(req.params.id)
     .then((user) => {
       if (user == null) {
