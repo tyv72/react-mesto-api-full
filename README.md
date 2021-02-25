@@ -4,6 +4,8 @@
 Ссылка на сайт, размещенный на Яндекс.Облаке:
 https://tyv.students.nomoreparties.space/
 
-Доменное имя frontend'a = tyv.students.nomoreparties.space, www.tyv.students.nomoreparties.space
-Доменное имя backend'a = api.tyv.students.nomoreparties.space, www.api.tyv.students.nomoreparties.space
-IP адрес сервера, на котором всё находится = 84.201.160.146
+Доменное имя frontend'a = tyv.students.nomoreparties.space, www.tyv.students.nomoreparties.space.
+
+Доменное имя backend'a = api.tyv.students.nomoreparties.space, www.api.tyv.students.nomoreparties.space.
+
+IP адрес сервера, на котором всё находится = 84.201.160.146.
