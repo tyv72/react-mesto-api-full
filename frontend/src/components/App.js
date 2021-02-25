@@ -194,7 +194,7 @@ function App() {
     api.deleteCard(card._id, token)
     .then((card) => {
       let newCards = cards.slice();
-      let cardIdx = newCards.find(item => item._id == card.data._id);
+      let cardIdx = newCards.findIndex(item => item._id == card.data._id);
       newCards.splice(cardIdx, 1);
       setCards(newCards);
       closeAllPopups();
