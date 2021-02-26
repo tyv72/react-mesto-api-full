@@ -19,23 +19,29 @@ router.get('/users/:id', celebrate({
 }), sendUserById);
 router.patch('/users/me', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30).messages({
-      'string.min': 'Длина имени должна быть не менее 2 символов',
-      'string.max': 'Длина имени должна быть не более 30 символов',
-    }),
-    about: Joi.string().min(2).max(30).messages({
-      'string.min': 'Длина описания должна быть не менее 2 символов',
-      'string.max': 'Длина описания должна быть не более 30 символов',
-    }),
+    name: Joi.string().required().min(2).max(30)
+      .messages({
+        'string.min': 'Длина имени должна быть не менее 2 символов',
+        'string.max': 'Длина имени должна быть не более 30 символов',
+        'any.required': 'Идентификатор пользователя - обязательное поле',
+      }),
+    about: Joi.string().required().min(2).max(30)
+      .messages({
+        'string.min': 'Длина описания должна быть не менее 2 символов',
+        'string.max': 'Длина описания должна быть не более 30 символов',
+        'any.required': 'Идентификатор пользователя - обязательное поле',
+      }),
   }),
 }), updateUser);
 router.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.custom((value, helper) => {
+    avatar: Joi.required().custom((value, helper) => {
       if (/^(?:https?:\/\/)?(?:www\.)?(?:[a-z0-9-]+\.)+(?:[a-z]+)(?:\/[a-z0-9-._~:?#/[\]@!$&'()*+,;=]*)?#?$/gmi.test(value)) {
         return value;
       }
       return helper.message('Невалидная ссылка на аватар');
+    }).messages({
+      'any.required': 'Ссылка на аватар - обязательное поле',
     }),
   }),
 }), updateAvatar);
